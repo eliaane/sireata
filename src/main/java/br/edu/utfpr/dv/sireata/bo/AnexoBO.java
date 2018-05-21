@@ -5,15 +5,37 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.edu.utfpr.dv.sireata.dao.AnexoDAO;
+import br.edu.utfpr.dv.sireata.dao.algorithms.ListarPorAtaDAO;
+import br.edu.utfpr.dv.sireata.dao.algorithms.SalvarDAO;
+import br.edu.utfpr.dv.sireata.dao.algorithms.anexo.AnexoBuscarPorIdDAO;
+import br.edu.utfpr.dv.sireata.dao.algorithms.anexo.AnexoCarregarObjetoDAO;
+import br.edu.utfpr.dv.sireata.dao.algorithms.anexo.AnexoExcluirDAO;
+import br.edu.utfpr.dv.sireata.dao.algorithms.anexo.AnexoListarPorAtaDAO;
+import br.edu.utfpr.dv.sireata.dao.algorithms.anexo.AnexoSalvarDAO;
 import br.edu.utfpr.dv.sireata.model.Anexo;
+import br.edu.utfpr.dv.sireata.model.EntityDAO;
 
 public class AnexoBO {
+    
+    private AnexoDAO dao;
+    
+    public AnexoBO() {
+        dao = new AnexoDAO(
+                new AnexoBuscarPorIdDAO(),
+                new AnexoCarregarObjetoDAO(), 
+                new AnexoExcluirDAO(), 
+                new AnexoListarPorAtaDAO(), 
+                new AnexoSalvarDAO()
+        );
+    }
+    
+    
 
-	public Anexo buscarPorId(int id) throws Exception{
+	public EntityDAO buscarPorId(int id) throws Exception{
 		try{
-			AnexoDAO dao = new AnexoDAO();
 			
-			return dao.buscarPorId(id);
+                    return dao.buscarPorId(id);
+                    
 		}catch(Exception e){
 			Logger.getGlobal().log(Level.SEVERE, e.getMessage(), e);
 			
@@ -21,11 +43,11 @@ public class AnexoBO {
 		}
 	}
 	
-	public List<Anexo> listarPorAta(int idAta) throws Exception{
+	public List<EntityDAO> listarPorAta(int idAta) throws Exception{
 		try{
-			AnexoDAO dao = new AnexoDAO();
-			
-			return dao.listarPorAta(idAta);
+					
+                    return dao.listarPorAta(idAta);
+                    
 		}catch(Exception e){
 			Logger.getGlobal().log(Level.SEVERE, e.getMessage(), e);
 			
@@ -50,8 +72,6 @@ public class AnexoBO {
 			
 			this.validarDados(anexo);
 			
-			AnexoDAO dao = new AnexoDAO();
-			
 			return dao.salvar(anexo);
 		}catch(Exception e){
 			Logger.getGlobal().log(Level.SEVERE, e.getMessage(), e);
@@ -66,7 +86,6 @@ public class AnexoBO {
 	
 	public void excluir(int id) throws Exception{
 		try{
-			AnexoDAO dao = new AnexoDAO();
 			
 			dao.excluir(id);
 		}catch(Exception e){
